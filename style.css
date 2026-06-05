@@ -1,0 +1,86 @@
+/* Remove default margins and make the game full screen */
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
+    background-color: #87CEEB; /* Sky blue background */
+    font-family: Arial, sans-serif;
+}
+
+.game-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh; /* Take up the full screen height */
+    max-width: 600px; /* Prevent it from getting too wide on computers */
+    margin: 0 auto; /* Center the game on a computer screen */
+    background-color: #87CEEB;
+    box-shadow: 0 0 20px rgba(0,0,0,0.3);
+}
+
+.score-board {
+    background-color: #333;
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    padding: 15px 0;
+}
+
+.sky {
+    flex-grow: 1; /* Takes up all the empty space between score and platform */
+    position: relative; /* So the coin can be positioned inside it */
+    overflow: hidden; /* Hide the coin if it goes off the sides */
+}
+
+.coin {
+    position: absolute;
+    font-size: 40px;
+    top: 0px;
+    left: 50px; /* Default starting position, JavaScript will change this */
+}
+
+.platform {
+    height: 80px;
+    background-color: #8B4513; /* Brown dirt color */
+    position: relative; /* So the truck can move inside it */
+    border-top: 10px solid #228B22; /* Green grass on top */
+}
+
+.truck {
+    position: absolute;
+    font-size: 50px;
+    bottom: 10px; /* Sit right on the grass */
+    left: 50px; /* Default starting position, JavaScript will change this */
+}
+
+.controls {
+    display: flex;
+    height: 100px; /* Height of the button area */
+    background-color: #222;
+}
+
+.control-btn {
+    flex-grow: 1; /* Both buttons take up 50% of the width */
+    font-size: 40px;
+    font-weight: bold;
+    color: white;
+    border: none;
+    cursor: pointer;
+    outline: none;
+    -webkit-tap-highlight-color: transparent; /* Removes ugly tap flash on phones */
+}
+
+#btn-left {
+    background-color: #e74c3c; /* Red button */
+    border-right: 2px solid #444;
+}
+
+#btn-right {
+    background-color: #3498db; /* Blue button */
+}
+
+/* Make buttons look a little darker when clicked */
+.control-btn:active {
+    filter: brightness(0.8);
+}
