@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Truck Coin Catcher</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="game-container">
+        <!-- The score board -->
+        <div class="score-board">Coins: <span id="score">0</span></div>
+        
+        <!-- The sky where the coin falls -->
+        <div class="sky" id="sky">
+            <div class="coin" id="coin">🪙</div>
+        </div>
+
+        <!-- The platform and the truck -->
+        <div class="platform">
+            <div class="truck" id="truck">🛻</div>
+        </div>
+
+        <!-- The L and R control buttons -->
+        <div class="controls">
+            <button class="control-btn" id="btn-left">L</button>
+            <button class="control-btn" id="btn-right">R</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
