@@ -11,9 +11,9 @@ body, html {
 .game-container {
     display: flex;
     flex-direction: column;
-    height: 100vh; /* Take up the full screen height */
-    max-width: 600px; /* Prevent it from getting too wide on computers */
-    margin: 0 auto; /* Center the game on a computer screen */
+    height: 100vh;
+    max-width: 600px;
+    margin: 0 auto;
     background-color: #87CEEB;
     box-shadow: 0 0 20px rgba(0,0,0,0.3);
 }
@@ -28,59 +28,71 @@ body, html {
 }
 
 .sky {
-    flex-grow: 1; /* Takes up all the empty space between score and platform */
-    position: relative; /* So the coin can be positioned inside it */
-    overflow: hidden; /* Hide the coin if it goes off the sides */
+    flex-grow: 1;
+    position: relative;
+    overflow: hidden;
 }
 
 .coin {
     position: absolute;
     font-size: 40px;
     top: 0px;
-    left: 50px; /* Default starting position, JavaScript will change this */
+}
+
+.trophy {
+    position: absolute;
+    font-size: 60px;
+    bottom: 10px; /* Sits right on the grass */
+    left: 50%;
+    transform: translateX(-50%); /* Perfectly centers the trophy */
+    display: none; /* Hidden at the start of the game */
+    animation: glow 1s infinite alternate; /* Glowing animation */
+}
+
+@keyframes glow {
+    from { filter: drop-shadow(0 0 5px gold); }
+    to { filter: drop-shadow(0 0 15px gold); }
 }
 
 .platform {
     height: 80px;
-    background-color: #8B4513; /* Brown dirt color */
-    position: relative; /* So the truck can move inside it */
-    border-top: 10px solid #228B22; /* Green grass on top */
+    background-color: #8B4513;
+    position: relative;
+    border-top: 10px solid #228B22;
 }
 
 .truck {
     position: absolute;
     font-size: 50px;
-    bottom: 10px; /* Sit right on the grass */
-    left: 50px; /* Default starting position, JavaScript will change this */
+    bottom: 10px;
 }
 
 .controls {
     display: flex;
-    height: 100px; /* Height of the button area */
+    height: 100px;
     background-color: #222;
 }
 
 .control-btn {
-    flex-grow: 1; /* Both buttons take up 50% of the width */
+    flex-grow: 1;
     font-size: 40px;
     font-weight: bold;
     color: white;
     border: none;
     cursor: pointer;
     outline: none;
-    -webkit-tap-highlight-color: transparent; /* Removes ugly tap flash on phones */
+    -webkit-tap-highlight-color: transparent;
 }
 
 #btn-left {
-    background-color: #e74c3c; /* Red button */
+    background-color: #e74c3c;
     border-right: 2px solid #444;
 }
 
 #btn-right {
-    background-color: #3498db; /* Blue button */
+    background-color: #3498db;
 }
 
-/* Make buttons look a little darker when clicked */
 .control-btn:active {
     filter: brightness(0.8);
 }
