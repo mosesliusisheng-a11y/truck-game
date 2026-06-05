@@ -5,18 +5,27 @@ const scoreDisplay = document.getElementById('score');
 const btnLeft = document.getElementById('btn-left');
 const btnRight = document.getElementById('btn-right');
 const sky = document.getElementById('sky');
+const platform = document.querySelector('.platform');
 
 // 2. Game Variables
 let score = 0;
-let truckPos = 150; // Truck's horizontal position
-let coinPos = { x: 100, y: 0 }; // Coin's X and Y position
-const truckSpeed = 5; // How fast the truck moves
-const coinSpeed = 3; // How fast the coin falls
+let truckPos = 150;
+let coinPos = { x: 100, y: 0 };
+const truckSpeed = 5;
+const coinSpeed = 3;
+let gameActive = true; // This will track if the game is still playing
 
 let moveLeftInterval = null;
 let moveRightInterval = null;
 
-// 3. Truck Movement Logic (Tap or Long Press)
+// 3. Create the Trophy
+const trophy = document.createElement('div');
+trophy.classList.add('trophy');
+trophy.innerText = '🏆';
+platform.appendChild(trophy); // Put the trophy on the platform
+
+
+// 4. Truck Movement Logic
 function startMovingLeft() {
     if (moveLeftInterval === null) {
         moveLeftInterval = setInterval(() => {
@@ -34,7 +43,6 @@ function stopMovingLeft() {
 function startMovingRight() {
     if (moveRightInterval === null) {
         moveRightInterval = setInterval(() => {
-            // 550 is roughly the right edge limit so it doesn't go off screen
             if (truckPos < 550) truckPos += truckSpeed;
             truck.style.left = truckPos + 'px';
         }, 20);
@@ -61,56 +69,68 @@ btnRight.addEventListener('touchstart', (e) => { e.preventDefault(); startMoving
 btnRight.addEventListener('touchend', stopMovingRight);
 
 
-// 4. Coin Logic
+// 5. Coin Logic
 function dropNewCoin() {
-    // Calculate a random horizontal position based on screen width
     let skyWidth = sky.clientWidth;
-    let randomX = Math.floor(Math.random() * (skyWidth - 40)); // -40 to keep it on screen
+    let randomX = Math.floor(Math.random() * (skyWidth - 40));
     
     coinPos.x = randomX;
-    coinPos.y = 0; // Start at the top of the sky
+    coinPos.y = 0;
     
     coin.style.left = coinPos.x + 'px';
     coin.style.top = coinPos.y + 'px';
 }
 
-// 5. Collision Detection (Is the truck touching the coin?)
+// 6. Collision Detection
 function checkCollision() {
-    // Get the exact size and position of the truck and coin on the screen
     let truckRect = truck.getBoundingClientRect();
     let coinRect = coin.getBoundingClientRect();
 
-    // Standard math to check if two boxes overlap
     if (!(coinRect.right < truckRect.left || 
           coinRect.left > truckRect.right || 
           coinRect.bottom < truckRect.top || 
           coinRect.top > truckRect.bottom)) {
         
-        // They are touching!
         score++;
         scoreDisplay.innerText = score;
-        dropNewCoin(); // Make a new coin fall
+        
+        // CHECK FOR THE WIN CONDITION!
+        if (score === 50) {
+            winGame();
+        } else {
+            dropNewCoin();
+        }
     }
 }
 
-// 6. Main Game Loop (Runs continuously to move coin and check for collisions)
-function gameLoop() {
-    // Move coin down
-    coinPos.y += coinSpeed;
-    coin.style.top = coinPos.y + 'px';
+// 7. Win Game Function
+function winGame() {
+    gameActive = false; // Stops the game loop
+    coin.style.display = 'none'; // Hide the coin
+    trophy.style.display = 'block'; // Show the trophy!
+    
+    // Stop the truck from moving
+    stopMovingLeft();
+    stopMovingRight();
+}
 
-    // If coin falls past the truck, just drop a new one (no penalty in this version)
-    if (coinPos.y > sky.clientHeight) {
-        dropNewCoin();
+// 8. Main Game Loop
+function gameLoop() {
+    // Only run the game if gameActive is true
+    if (gameActive) {
+        coinPos.y += coinSpeed;
+        coin.style.top = coinPos.y + 'px';
+
+        if (coinPos.y > sky.clientHeight) {
+            dropNewCoin();
+        }
+
+        checkCollision();
     }
 
-    // Check if the truck caught the coin
-    checkCollision();
-
-    // Repeat the loop
     requestAnimationFrame(gameLoop);
 }
 
-// 7. Start the Game
+// 9. Start the Game
 dropNewCoin();
 gameLoop();
